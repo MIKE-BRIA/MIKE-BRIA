@@ -5,6 +5,7 @@ from .serializers import UserSerializer,NoteSerializer
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from .models import Note
 
+
 # Create your views here.
 #creating user
 class CreateUserView(generics.CreateAPIView):
