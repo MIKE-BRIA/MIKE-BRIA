@@ -14,13 +14,32 @@ const Form = ({ route, method }) => {
 
   const name = method === "login" ? "Login" : "Register";
 
+  // const handleSubmit = async (e) => {
+  //   setLoading(true);
+  //   e.preventDefault();
+
+  //   try {
+  //     const res = await api.post(route, { username, password });
+  //     if (method === "login") {
+  //       localStorage.setItem(ACCESS_TOKEN, res.data.access);
+  //       localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+  //       navigate("/");
+  //     } else {
+  //       navigate("/login");
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
 
     try {
       const res = await api.post(route, { username, password });
-
       if (method === "login") {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
@@ -29,7 +48,21 @@ const Form = ({ route, method }) => {
         navigate("/login");
       }
     } catch (error) {
-      alert(error.response ? error.response.data : error.message);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        alert(
+          error.response.data.detail || "An error occurred. Please try again."
+        );
+      } else if (error.request) {
+        // The request was made but no response was received
+        alert(
+          "No response from the server. Please check your network connection."
+        );
+      } else {
+        // Something happened in setting up the request that triggered an error
+        alert("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
