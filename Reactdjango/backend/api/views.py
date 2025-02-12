@@ -13,6 +13,11 @@ class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
     
+    def create(self, request, *args, **kwargs):
+        print("Request Data:", request.data)  # Log the request data
+        response = super().create(request, *args, **kwargs)
+        return response
+    
     
 #creating,reading notes
 class NoteListCreate(generics.ListCreateAPIView):
